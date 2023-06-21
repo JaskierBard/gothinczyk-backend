@@ -1,8 +1,13 @@
 export interface ArmorEntity {
-    id: string,
+    id: string;
     name: string;
-    defense: number;
+    def_weapon: number;
+    def_bow: number;
+    def_fire: number;
+    def_magic: number;
     price: number;
-    image: string;
+    img: string;
+    code: string;
+    stack: boolean;
 }
 
