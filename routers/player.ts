@@ -10,16 +10,16 @@ export const playerRouter = Router();
 playerRouter
 
     .get('/equipment', async (req, res) => {
-        const weapons = await WeaponRecords.listAll()
-        const armors = await ArmorRecords.listAll()
+        const weapon = await WeaponRecords.listAll()
+        const armor = await ArmorRecords.listAll()
         const alchemy = await AlchemyRecords.listAll()
         const magic = await MagicRecords.listAll()
         const other = await OtherRecords.listAll()
 
 
         res.json({
-            weapons,
-            armors,
+            weapon,
+            armor,
             alchemy,
             magic,
             other
