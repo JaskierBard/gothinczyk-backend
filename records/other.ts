@@ -11,6 +11,7 @@ export class OtherRecords implements OtherEntity {
     price: number;
     code: string;
     img: string;
+    type: string
 
     constructor(obj: OtherEntity) {
         this.name = obj.name;
@@ -18,9 +19,9 @@ export class OtherRecords implements OtherEntity {
         this.price = obj.price;
         this.img = obj.img;
         this.code = obj.code;
+        this.type = obj.type;
+
     }
-
-
 
     static async listAll(): Promise<OtherEntity[]> {
         const [resultsOther] = (await pool.execute("SELECT * FROM `other` ORDER BY `price` DESC")) as OtherRecordResults;

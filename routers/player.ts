@@ -8,20 +8,21 @@ import { OtherRecords } from "../records/other";
 export const playerRouter = Router();
 
 playerRouter
-
-    .get('/equipment', async (req, res) => {
-        const weapon = await WeaponRecords.listAll()
+    .get('/equipment/', async (req, res) => {
+        const pagin = req.query.pagination;
+        const value = Number(pagin)
+        
+        const weapon = await WeaponRecords.listAll();
         const armor = await ArmorRecords.listAll()
         const alchemy = await AlchemyRecords.listAll()
         const magic = await MagicRecords.listAll()
         const other = await OtherRecords.listAll()
-
 
         res.json({
             weapon,
             armor,
             alchemy,
             magic,
-            other
+            other           
         })
     })

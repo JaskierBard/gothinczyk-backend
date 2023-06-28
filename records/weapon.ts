@@ -33,10 +33,8 @@ export class WeaponRecords implements WeaponEntity {
 
     }
 
-
-
     static async listAll(): Promise<WeaponEntity[]> {
-        const [resultsWeapon] = (await pool.execute("SELECT * FROM `weapon` ORDER BY `price` DESC")) as WeaponRecordResults;
+        const [resultsWeapon] = (await pool.execute("SELECT * FROM `weapon` ORDER BY type DESC, price DESC")) as WeaponRecordResults;
         return resultsWeapon.map(obj => new WeaponRecords(obj));
     }
    

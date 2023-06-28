@@ -24,7 +24,7 @@ export class AlchemyRecords implements AlchemyEntity {
     }
 
     static async listAll(): Promise<AlchemyEntity[]> {
-        const [resultsAlchemy] = (await pool.execute("SELECT * FROM `alchemy` ORDER BY `name` ASC")) as AlchemyRecordResults;
+        const [resultsAlchemy] = (await pool.execute("SELECT * FROM `alchemy` ORDER BY `name` DESC")) as AlchemyRecordResults;
         return resultsAlchemy.map(obj => new AlchemyRecords(obj));
     }
 }

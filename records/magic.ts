@@ -29,8 +29,6 @@ export class MagicRecords implements MagicEntity {
 
     }
 
-
-
     static async listAll(): Promise<MagicEntity[]> {
         const [resultsMagic] = (await pool.execute("SELECT * FROM `magic` ORDER BY `price` DESC")) as MagicRecordResults;
         return resultsMagic.map(obj => new MagicRecords(obj));

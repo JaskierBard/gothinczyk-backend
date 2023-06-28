@@ -16,6 +16,7 @@ export class ArmorRecords implements ArmorEntity {
     img: string;
     code: string;
     stack: boolean;
+    type:string
 
     constructor(obj: ArmorEntity) {
         this.name = obj.name;
@@ -28,13 +29,11 @@ export class ArmorRecords implements ArmorEntity {
         this.img = obj.img;
         this.code = obj.code;
         this.stack = obj.stack;
-
+        this.type = obj.type;
     }
 
-
-
     static async listAll(): Promise<ArmorEntity[]> {
-        const [resultsArmor] = (await pool.execute("SELECT * FROM `armor` ORDER BY `name` ASC")) as ArmorRecordResults;
+        const [resultsArmor] = (await pool.execute("SELECT * FROM `armor` ORDER BY `name` DESC")) as ArmorRecordResults;
         return resultsArmor.map(obj => new ArmorRecords(obj));
     }
    
