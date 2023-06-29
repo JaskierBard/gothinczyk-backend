@@ -6,7 +6,7 @@ type OtherRecordResults = [OtherRecords[], FieldPacket[]];
 
 
 export class OtherRecords implements OtherEntity {
-    id: string;
+    other_id: string;
     name: string;
     price: number;
     code: string;
@@ -15,7 +15,7 @@ export class OtherRecords implements OtherEntity {
 
     constructor(obj: OtherEntity) {
         this.name = obj.name;
-        this.id = obj.id;
+        this.other_id = obj.other_id;
         this.price = obj.price;
         this.img = obj.img;
         this.code = obj.code;

@@ -1,5 +1,5 @@
 export interface WeaponEntity{
-    id: string;
+    weapon_id: string;
     name: string;
     cut_damage: number;
     hit_damage: number;

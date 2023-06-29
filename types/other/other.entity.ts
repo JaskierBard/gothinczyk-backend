@@ -1,5 +1,5 @@
 export interface OtherEntity {
-    id: string;
+    other_id: string;
     name: string;
     price: number;
     code: string;

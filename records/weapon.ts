@@ -6,7 +6,7 @@ type WeaponRecordResults = [WeaponRecords[], FieldPacket[]];
 
 
 export class WeaponRecords implements WeaponEntity {
-    id: string;
+    weapon_id: string;
     name: string;
     cut_damage: number;
     hit_damage: number;
@@ -20,7 +20,7 @@ export class WeaponRecords implements WeaponEntity {
 
     constructor(obj: WeaponEntity) {
         this.name = obj.name;
-        this.id = obj.id;
+        this.weapon_id = obj.weapon_id;
         this.cut_damage = obj.cut_damage;
         this.hit_damage = obj.hit_damage;
         this.strength = obj.strength;

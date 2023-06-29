@@ -6,7 +6,7 @@ type MagicRecordResults = [MagicRecords[], FieldPacket[]];
 
 
 export class MagicRecords implements MagicEntity {
-    id: string;
+    magic_id: string;
     name: string;
     type: number;
     mana_needed: number;
@@ -18,7 +18,7 @@ export class MagicRecords implements MagicEntity {
 
     constructor(obj: MagicEntity) {
         this.name = obj.name;
-        this.id = obj.id;
+        this.magic_id = obj.magic_id;
         this.type = obj.type;
         this.mana_needed = obj.mana_needed;
         this.description = obj.description;

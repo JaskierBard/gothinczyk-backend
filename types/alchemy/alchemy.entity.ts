@@ -1,5 +1,5 @@
 export interface AlchemyEntity {
-    id: string;
+    alchemy_id: string;
     name: string;
     type: number;
     description: number;

@@ -6,7 +6,7 @@ type ArmorRecordResults = [ArmorRecords[], FieldPacket[]];
 
 
 export class ArmorRecords implements ArmorEntity {
-    id: string;
+    armor_id	: string;
     name: string;
     def_weapon: number;
     def_bow: number;
@@ -20,7 +20,7 @@ export class ArmorRecords implements ArmorEntity {
 
     constructor(obj: ArmorEntity) {
         this.name = obj.name;
-        this.id = obj.id;
+        this.armor_id	 = obj.armor_id	;
         this.def_weapon = obj.def_weapon;
         this.def_bow = obj.def_bow;
         this.def_fire = obj.def_fire;

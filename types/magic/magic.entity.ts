@@ -1,5 +1,5 @@
 export interface MagicEntity {
-    id: string;
+    magic_id: string;
     name: string;
     type: number;
     mana_needed: number;

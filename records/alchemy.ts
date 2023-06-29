@@ -5,7 +5,7 @@ import { FieldPacket } from "mysql2";
 type AlchemyRecordResults = [AlchemyRecords[], FieldPacket[]];
 
 export class AlchemyRecords implements AlchemyEntity {
-    id: string;
+    alchemy_id: string;
     name: string;
     type: number;
     description: number;
@@ -14,7 +14,7 @@ export class AlchemyRecords implements AlchemyEntity {
     img: string;
 
     constructor(obj: AlchemyEntity) {
-        this.id = obj.id;
+        this.alchemy_id = obj.alchemy_id;
         this.name = obj.name;
         this.type = obj.type;
         this.description = obj.description;

@@ -1,5 +1,5 @@
 export interface ArmorEntity {
-    id: string;
+    armor_id: string;
     name: string;
     def_weapon: number;
     def_bow: number;
