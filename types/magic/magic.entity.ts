@@ -8,5 +8,7 @@ export interface MagicEntity {
     price: number;
     code: string;
     img: string;
+    quantity: number;
+
 }
 

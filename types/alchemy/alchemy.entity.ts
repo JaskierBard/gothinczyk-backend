@@ -6,5 +6,6 @@ export interface AlchemyEntity {
     price: number;
     alchemy: string;
     img: string;
+    quantity: number;
 }
 

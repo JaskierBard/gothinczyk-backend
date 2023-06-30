@@ -9,6 +9,8 @@ export interface ArmorEntity {
     img: string;
     code: string;
     stack: boolean;
-    type: string
+    type: string;
+    quantity: number;
+
 }
 

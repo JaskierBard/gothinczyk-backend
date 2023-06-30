@@ -10,5 +10,7 @@ export interface WeaponEntity{
     code: string;
     type:string
     stack: boolean;
+    quantity : number;
+
 }
 

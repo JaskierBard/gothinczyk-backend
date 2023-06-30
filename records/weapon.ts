@@ -17,6 +17,8 @@ export class WeaponRecords implements WeaponEntity {
     code: string;
     type:string
     stack: boolean;
+    quantity : number;
+
 
     constructor(obj: WeaponEntity) {
         this.name = obj.name;
@@ -30,13 +32,27 @@ export class WeaponRecords implements WeaponEntity {
         this.code = obj.code;
         this.type = obj.type;
         this.stack = obj.stack;
+        this.quantity = obj.quantity;
+
 
     }
 
-    static async listAll(): Promise<WeaponEntity[]> {
-        const [resultsWeapon] = (await pool.execute("SELECT * FROM `weapon` ORDER BY type DESC, price DESC")) as WeaponRecordResults;
-        return resultsWeapon.map(obj => new WeaponRecords(obj));
-    }
+    static async listAll(player_id: string) {
+
+        const [results] = await pool.execute(`
+            SELECT weapon.*, hero_equipment.quantity
+            FROM weapon
+            JOIN hero_equipment ON weapon.weapon_id = hero_equipment.equipment_id
+            WHERE hero_equipment.player_id = :player_id
+            ORDER BY weapon.price DESC`, { 
+                player_id: player_id
+            }) as WeaponRecordResults;
+
+      return results.map(row => ({
+        ...row,
+        quantity: row.quantity
+      }));
+        }
    
 
    

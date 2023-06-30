@@ -15,6 +15,8 @@ export class MagicRecords implements MagicEntity {
     price: number;
     code: string;
     img: string;
+    quantity : number;
+
 
     constructor(obj: MagicEntity) {
         this.name = obj.name;
@@ -26,13 +28,28 @@ export class MagicRecords implements MagicEntity {
         this.price = obj.price;
         this.img = obj.img;
         this.code = obj.code;
+        this.quantity = obj.quantity;
+
 
     }
 
-    static async listAll(): Promise<MagicEntity[]> {
-        const [resultsMagic] = (await pool.execute("SELECT * FROM `magic` ORDER BY `price` DESC")) as MagicRecordResults;
-        return resultsMagic.map(obj => new MagicRecords(obj));
-    }
+    static async listAll(player_id: string) {
+
+        const [results] = await pool.execute(`
+            SELECT magic.*, hero_equipment.quantity
+            FROM magic
+            JOIN hero_equipment ON magic.magic_id = hero_equipment.equipment_id
+            WHERE hero_equipment.player_id = :player_id
+            ORDER BY magic.price DESC`, { 
+                player_id: player_id
+            }) as MagicRecordResults;
+
+      return results.map(row => ({
+        ...row,
+        quantity: row.quantity
+      }));
+        
+        }
    
 
    

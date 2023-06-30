@@ -4,6 +4,8 @@ export interface OtherEntity {
     price: number;
     code: string;
     img: string;
-    type: string
+    type: string;
+    quantity : number;
+
 }
 

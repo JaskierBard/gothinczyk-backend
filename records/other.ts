@@ -11,7 +11,9 @@ export class OtherRecords implements OtherEntity {
     price: number;
     code: string;
     img: string;
-    type: string
+    type: string;
+    quantity : number;
+
 
     constructor(obj: OtherEntity) {
         this.name = obj.name;
@@ -20,11 +22,26 @@ export class OtherRecords implements OtherEntity {
         this.img = obj.img;
         this.code = obj.code;
         this.type = obj.type;
+        this.quantity = obj.quantity;
+
 
     }
 
-    static async listAll(): Promise<OtherEntity[]> {
-        const [resultsOther] = (await pool.execute("SELECT * FROM `other` ORDER BY `price` DESC")) as OtherRecordResults;
-        return resultsOther.map(obj => new OtherRecords(obj));
-    }
+    static async listAll(player_id: string) {
+
+        const [results] = await pool.execute(`
+            SELECT other.*, hero_equipment.quantity
+            FROM other
+            JOIN hero_equipment ON other.other_id = hero_equipment.equipment_id
+            WHERE hero_equipment.player_id = :player_id
+            ORDER BY other.price DESC`, { 
+                player_id: player_id
+            }) as OtherRecordResults;
+
+      return results.map(row => ({
+        ...row,
+        quantity: row.quantity
+      }));
+        
+        }
 }

@@ -6,7 +6,7 @@ type ArmorRecordResults = [ArmorRecords[], FieldPacket[]];
 
 
 export class ArmorRecords implements ArmorEntity {
-    armor_id	: string;
+    armor_id: string;
     name: string;
     def_weapon: number;
     def_bow: number;
@@ -16,7 +16,9 @@ export class ArmorRecords implements ArmorEntity {
     img: string;
     code: string;
     stack: boolean;
-    type:string
+    type:string;
+    quantity : number;
+
 
     constructor(obj: ArmorEntity) {
         this.name = obj.name;
@@ -30,12 +32,27 @@ export class ArmorRecords implements ArmorEntity {
         this.code = obj.code;
         this.stack = obj.stack;
         this.type = obj.type;
+        this.quantity = obj.quantity;
+
     }
 
-    static async listAll(): Promise<ArmorEntity[]> {
-        const [resultsArmor] = (await pool.execute("SELECT * FROM `armor` ORDER BY `name` DESC")) as ArmorRecordResults;
-        return resultsArmor.map(obj => new ArmorRecords(obj));
-    }
+    static async listAll(player_id: string) {
+
+        const [results] = await pool.execute(`
+            SELECT armor.*, hero_equipment.quantity
+            FROM armor
+            JOIN hero_equipment ON armor.armor_id = hero_equipment.equipment_id
+            WHERE hero_equipment.player_id = :player_id
+            ORDER BY armor.price DESC`, { 
+                player_id: player_id
+            }) as ArmorRecordResults;
+
+      return results.map(row => ({
+        ...row,
+        quantity: row.quantity
+      }));
+        
+        }
    
 
    

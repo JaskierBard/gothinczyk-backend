@@ -4,6 +4,7 @@ import { FieldPacket } from "mysql2";
 
 type AlchemyRecordResults = [AlchemyRecords[], FieldPacket[]];
 
+
 export class AlchemyRecords implements AlchemyEntity {
     alchemy_id: string;
     name: string;
@@ -12,6 +13,7 @@ export class AlchemyRecords implements AlchemyEntity {
     price: number;
     alchemy: string;
     img: string;
+    quantity : number;
 
     constructor(obj: AlchemyEntity) {
         this.alchemy_id = obj.alchemy_id;
@@ -21,10 +23,24 @@ export class AlchemyRecords implements AlchemyEntity {
         this.price = obj.price;
         this.alchemy = obj.alchemy;
         this.img = obj.img;
+        this.quantity = obj.quantity;
+
     }
 
-    static async listAll(): Promise<AlchemyEntity[]> {
-        const [resultsAlchemy] = (await pool.execute("SELECT * FROM `alchemy` ORDER BY `name` DESC")) as AlchemyRecordResults;
-        return resultsAlchemy.map(obj => new AlchemyRecords(obj));
+    static async listAll(player_id: string) {
+
+        const [results] = await pool.execute(`
+            SELECT alchemy.*, hero_equipment.quantity
+            FROM alchemy
+            JOIN hero_equipment ON alchemy.alchemy_id = hero_equipment.equipment_id
+            WHERE hero_equipment.player_id = :player_id
+            ORDER BY alchemy.price DESC`, { 
+                player_id: player_id
+            }) as AlchemyRecordResults;
+
+      return results.map(row => ({
+        ...row,
+        quantity: row.quantity
+      }));
+        }
     }
-}
