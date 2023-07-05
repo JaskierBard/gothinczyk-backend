@@ -12,6 +12,9 @@ export class ArmorRecords implements ArmorEntity {
     def_bow: number;
     def_fire: number;
     def_magic: number;
+    description: number;
+    bonus: number;
+    bonus_type: string;
     price: number;
     img: string;
     code: string;
@@ -27,6 +30,9 @@ export class ArmorRecords implements ArmorEntity {
         this.def_bow = obj.def_bow;
         this.def_fire = obj.def_fire;
         this.def_magic = obj.def_magic;
+        this.description = obj.description;
+        this.bonus = obj.bonus;
+        this.bonus_type = obj.bonus_type;
         this.price = obj.price;
         this.img = obj.img;
         this.code = obj.code;

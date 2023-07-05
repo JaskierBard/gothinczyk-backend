@@ -5,6 +5,9 @@ export interface ArmorEntity {
     def_bow: number;
     def_fire: number;
     def_magic: number;
+    description: number;
+    bonus: number;
+    bonus_type: string;
     price: number;
     img: string;
     code: string;

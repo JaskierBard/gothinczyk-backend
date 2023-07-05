@@ -10,7 +10,7 @@ export const playerRouter = Router();
 
 playerRouter
     .get('/equipment/', async (req, res) => {
-        const player_id = '21bdf586-1588-11ee-9005-581122ba8110';
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
         // const pagin = req.query.pagination;
         // const value = Number(pagin)
         
@@ -32,7 +32,7 @@ playerRouter
     })
 
     .get('/statistic/', async (req, res) => {
-        const player_id = '21bdf586-1588-11ee-9005-581122ba8110';
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
 
         const statistic = await PlayerRecords.listAll(player_id);
         console.log(statistic)
