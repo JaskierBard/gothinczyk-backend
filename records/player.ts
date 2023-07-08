@@ -67,4 +67,12 @@ export class PlayerRecords implements PlayerEntity {
 
       return results.map(obj => new PlayerRecords(obj));
         }
+
+        static async addExperience(player_id: string, experience:number): Promise<void> {
+
+          await pool.execute("UPDATE `player` SET experience = experience +" + `${experience}` + " WHERE `player_id` = :player_id", {
+              player_id: player_id
+          })
+  
+          }
     }

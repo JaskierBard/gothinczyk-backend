@@ -5,6 +5,7 @@ import { AlchemyRecords } from "../records/alchemy";
 import { MagicRecords } from "../records/magic";
 import { OtherRecords } from "../records/other";
 import { PlayerRecords } from "../records/player";
+import { json } from "stream/consumers";
 
 export const playerRouter = Router();
 
@@ -35,8 +36,18 @@ playerRouter
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
 
         const statistic = await PlayerRecords.listAll(player_id);
-        console.log(statistic)
+        // console.log(statistic)
         res.json({
             statistic           
         })
+
+        
+    })
+
+    .post('/statistic/', async (req, res) => {
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
+
+        const statistic = req.body.exp;
+        PlayerRecords.addExperience(player_id, statistic)
+
     })
