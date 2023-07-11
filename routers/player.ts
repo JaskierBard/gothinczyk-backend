@@ -5,7 +5,6 @@ import { AlchemyRecords } from "../records/alchemy";
 import { MagicRecords } from "../records/magic";
 import { OtherRecords } from "../records/other";
 import { PlayerRecords } from "../records/player";
-import { json } from "stream/consumers";
 
 export const playerRouter = Router();
 
@@ -36,18 +35,45 @@ playerRouter
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
 
         const statistic = await PlayerRecords.listAll(player_id);
-        // console.log(statistic)
+        console.log(statistic)
         res.json({
             statistic           
         })
 
         
     })
+    .get('/statistic/reset/', async (req, res) => {
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
+        await PlayerRecords.resetStats(player_id);
+        res.json({
+            player_id 
+         })
+    })
 
-    .post('/statistic/', async (req, res) => {
+    .post('/statistic/update_lvl/:lvl', async (req, res) => {
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
+        const lvl = req.params.lvl
+        await PlayerRecords.updateLvl(player_id, Number(lvl))
+        res.json({
+            lvl 
+         })
+    })
+
+    .post('/statistic/learning_points/:lp', async (req, res) => {
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
+        const lp = req.params.lp
+        await PlayerRecords.addLearningPoint(player_id, Number(lp))
+        res.json({
+            lp 
+         })
+    })
+
+    .post('/statistic/experience/:exp', async (req, res) => {
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
 
-        const statistic = req.body.exp;
-        PlayerRecords.addExperience(player_id, statistic)
-
+        const exp = req.params.exp
+        await PlayerRecords.addExperience(player_id, Number(exp))
+        res.json({
+           exp 
+        })
     })

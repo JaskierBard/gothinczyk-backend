@@ -75,4 +75,27 @@ export class PlayerRecords implements PlayerEntity {
           })
   
           }
+
+          static async addLearningPoint(player_id: string, learningPoints: number): Promise<void> {
+
+            await pool.execute("UPDATE `player` SET learning_points = learning_points +" + `${learningPoints}` + " WHERE `player_id` = :player_id", {
+                player_id: player_id
+            })
+    
+            }
+
+            static async updateLvl(player_id: string, lvl: number): Promise<void> {
+
+              await pool.execute("UPDATE `player` SET level = level +" + `${lvl}` + " WHERE `player_id` = :player_id", {
+                  player_id: player_id
+              })
+      
+              }
+              static async resetStats(player_id: string): Promise<void> {
+
+                await pool.execute("UPDATE player SET position = 0, gold = 2000, level = 0, magic_circle = 0, experience = 0, learning_points = 0, strength = 10, dexterity = 10, mana = 10, hitpoints = 100, one_handed = 0, two_handed = 0, bow = 0, crossbow = 0, sneak = 0, pick_locks = 0, pickpocket = 0, create_runes = 0, alchemy = 0, forge_weapons = 0, take_trophies = 0 WHERE `player_id` = :player_id", {
+                    player_id: player_id
+                })
+        
+                }      
     }
