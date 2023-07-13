@@ -76,9 +76,9 @@ export class PlayerRecords implements PlayerEntity {
   
           }
 
-          static async addLearningPoint(player_id: string, learningPoints: number): Promise<void> {
+          static async updateLearningPoint(player_id: string, learningPoints: number, operation: string): Promise<void> {
 
-            await pool.execute("UPDATE `player` SET learning_points = learning_points +" + `${learningPoints}` + " WHERE `player_id` = :player_id", {
+            await pool.execute("UPDATE `player` SET learning_points = learning_points "+ `${operation}` + `${learningPoints}` + " WHERE `player_id` = :player_id", {
                 player_id: player_id
             })
     
@@ -97,5 +97,15 @@ export class PlayerRecords implements PlayerEntity {
                     player_id: player_id
                 })
         
-                }      
+                } 
+                
+                static async addAttribute(player_id: string, attribute:string, lp:number): Promise<void> {
+
+                  await pool.execute("UPDATE `player` SET :attribute = :attribute + :lp   WHERE `player_id` = :player_id", {
+                      player_id: player_id,
+                      attribute,
+                      lp
+                  })
+          
+                  }         
     }

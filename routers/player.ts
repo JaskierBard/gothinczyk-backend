@@ -59,10 +59,12 @@ playerRouter
          })
     })
 
-    .post('/statistic/learning_points/:lp', async (req, res) => {
+    .post('/statistic/learning_points/:operation/:learningPoints', async (req, res) => {
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
-        const lp = req.params.lp
-        await PlayerRecords.addLearningPoint(player_id, Number(lp))
+        const lp = req.params.learningPoints
+        const operation = req.params.operation
+
+        await PlayerRecords.updateLearningPoint(player_id, Number(lp), operation)
         res.json({
             lp 
          })
@@ -75,5 +77,16 @@ playerRouter
         await PlayerRecords.addExperience(player_id, Number(exp))
         res.json({
            exp 
+        })
+    })
+
+    .post('/statistic/add_attributes/:attribute/:learningPoints', async (req, res) => {
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
+        const attribute = req.params.attribute
+        const lp = req.params.learningPoints
+
+        await PlayerRecords.addAttribute(player_id,attribute, Number(lp))
+        res.json({
+           player_id 
         })
     })
