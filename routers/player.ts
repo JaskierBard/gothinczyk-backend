@@ -35,7 +35,7 @@ playerRouter
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
 
         const statistic = await PlayerRecords.listAll(player_id);
-        console.log(statistic)
+        // console.log(statistic)
         res.json({
             statistic           
         })
@@ -54,6 +54,7 @@ playerRouter
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
         const lvl = req.params.lvl
         await PlayerRecords.updateLvl(player_id, Number(lvl))
+        // console.log(lvl)
         res.json({
             lvl 
          })
