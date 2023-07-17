@@ -31,6 +31,21 @@ playerRouter
         
     })
 
+    .get('/merchant_goods/', async (req, res) => {
+    
+        
+        const weapon = await WeaponRecords.listMerchantGoods();
+        console.log(weapon)
+
+        res.json({
+            weapon,          
+        })
+
+        
+    })
+
+    
+
     .get('/statistic/', async (req, res) => {
         const player_id = '865055da-1b49-11ee-af61-581122ba8110';
 
