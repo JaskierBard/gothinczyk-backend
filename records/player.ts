@@ -1,6 +1,8 @@
 import { pool } from "../utils/db";
 import { PlayerEntity } from "../types";
-import { FieldPacket } from "mysql2";
+import { FieldPacket, RowDataPacket } from "mysql2";
+import { v4 as uuid } from 'uuid';
+
 
 type PlayerRecordResults = [PlayerRecords[], FieldPacket[]];
 
@@ -132,5 +134,36 @@ export class PlayerRecords implements PlayerEntity {
         lp: lp,
       }
     );
+  }
+
+  static async buyProduct(player_id: string, productPrice: number, itemId: string, type: string) {
+    const id: string = uuid();
+
+    const [result] = await pool.execute(`SELECT * FROM hero_equipment WHERE equipment_id = :itemId AND player_id = :player_id`, {
+      player_id: player_id,
+      itemId: itemId,
+    }) as RowDataPacket[]
+
+    if (result.length === 0) {
+      await pool.execute(`UPDATE player SET gold = gold - :productPrice WHERE player_id = :player_id`, {
+        productPrice: productPrice,
+        player_id: player_id
+      });
+      await pool.execute(`INSERT INTO hero_equipment (id, equipment_id, player_id, quantity) VALUES (:id, :itemId, :player_id, :quantity)`, {
+        id: id,
+        itemId: itemId,
+        player_id: player_id,
+        quantity: 1
+      });
+    } else {
+      await pool.execute(`UPDATE hero_equipment SET quantity = quantity +1 WHERE equipment_id = :itemId AND player_id = :player_id`, {
+        itemId: itemId,
+        player_id: player_id
+      });
+    }
+
+
+    
+
   }
 }

@@ -35,7 +35,7 @@ playerRouter
     
         
         const weapon = await WeaponRecords.listMerchantGoods();
-        console.log(weapon)
+        // console.log(weapon)
 
         res.json({
             weapon,          
@@ -104,5 +104,18 @@ playerRouter
         await PlayerRecords.addAttribute(player_id,attribute, Number(lp))
         res.json({
            player_id 
+        })
+    })
+
+    .post('/buy/:productPrice/:itemId/:type', async (req, res) => {
+        const player_id = '865055da-1b49-11ee-af61-581122ba8110';
+        const productPrice = req.params.productPrice
+        const itemId = req.params.itemId
+        const type = req.params.type
+        // console.log('przed')
+
+        await PlayerRecords.buyProduct(player_id,Number(productPrice), itemId, type)
+        res.json({
+           
         })
     })
