@@ -138,6 +138,10 @@ export class PlayerRecords implements PlayerEntity {
 
   static async buyProduct(player_id: string, productPrice: number, itemId: string, type: string) {
     const id: string = uuid();
+    const pay = await pool.execute(`UPDATE player SET gold = gold - :productPrice WHERE player_id = :player_id`, {
+      productPrice: productPrice,
+      player_id: player_id
+    });
 
     const [result] = await pool.execute(`SELECT * FROM hero_equipment WHERE equipment_id = :itemId AND player_id = :player_id`, {
       player_id: player_id,
@@ -145,10 +149,7 @@ export class PlayerRecords implements PlayerEntity {
     }) as RowDataPacket[]
 
     if (result.length === 0) {
-      await pool.execute(`UPDATE player SET gold = gold - :productPrice WHERE player_id = :player_id`, {
-        productPrice: productPrice,
-        player_id: player_id
-      });
+      pay
       await pool.execute(`INSERT INTO hero_equipment (id, equipment_id, player_id, quantity) VALUES (:id, :itemId, :player_id, :quantity)`, {
         id: id,
         itemId: itemId,
@@ -156,6 +157,7 @@ export class PlayerRecords implements PlayerEntity {
         quantity: 1
       });
     } else {
+      pay
       await pool.execute(`UPDATE hero_equipment SET quantity = quantity +1 WHERE equipment_id = :itemId AND player_id = :player_id`, {
         itemId: itemId,
         player_id: player_id
