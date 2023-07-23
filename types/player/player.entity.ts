@@ -3,7 +3,6 @@ export interface PlayerEntity {
     name: string;
     color: string;
     position: number;
-    gold: number;
     level: number;
     magic_circle : number;
     experience: number;

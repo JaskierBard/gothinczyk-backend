@@ -4,8 +4,6 @@ import { FieldPacket } from "mysql2";
 
 type WeaponRecordResults = [WeaponRecords[], FieldPacket[]];
 
-const BosperWeapon:string[] = ['Kiepski miecz', 'Długi łuk', 'Łuk dębowy', 'Łuk jesionowy', 'Smoczy łuk', 'Laga', 'Strzała', 'Bełt', 'Ciężka pałka z kolcami']
-
 
 export class WeaponRecords implements WeaponEntity {
     weapon_id: string;
@@ -56,22 +54,7 @@ export class WeaponRecords implements WeaponEntity {
       }));
         }
 
-        static async listMerchantGoods() {
-            const results: any[] = [];
-
-            for (const weapon of BosperWeapon) {
-              const selectQuery = 'SELECT * FROM weapon WHERE name = ?';
-              const [rows] = await pool.execute<any>(selectQuery, [weapon]);
-          
-              if (rows.length > 0) {
-                results.push(rows[0]);
-              }
-            }
-          
-            return results;
-            
-            }
-       
+      
    
 
    

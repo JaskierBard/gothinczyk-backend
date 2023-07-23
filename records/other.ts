@@ -42,6 +42,13 @@ export class OtherRecords implements OtherEntity {
         ...row,
         quantity: row.quantity
       }));
+
+      
         
         }
+
+        static async getGold(player_id: string) {
+
+            
+          }
 }

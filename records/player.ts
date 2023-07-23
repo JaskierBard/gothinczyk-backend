@@ -11,7 +11,6 @@ export class PlayerRecords implements PlayerEntity {
   name: string;
   color: string;
   position: number;
-  gold: number;
   level: number;
   magic_circle: number;
   experience: number;
@@ -37,7 +36,6 @@ export class PlayerRecords implements PlayerEntity {
     this.name = obj.name;
     this.color = obj.color;
     this.position = obj.position;
-    this.gold = obj.gold;
     this.level = obj.level;
     this.magic_circle = obj.magic_circle;
     this.experience = obj.experience;
@@ -135,37 +133,133 @@ export class PlayerRecords implements PlayerEntity {
       }
     );
   }
-
-  static async buyProduct(player_id: string, productPrice: number, itemId: string, type: string) {
+  static async buyProduct(buyerId: string, sellerId:string, productPrice: number, itemId: string, type: string) {
     const id: string = uuid();
-    const pay = await pool.execute(`UPDATE player SET gold = gold - :productPrice WHERE player_id = :player_id`, {
-      productPrice: productPrice,
-      player_id: player_id
-    });
 
-    const [result] = await pool.execute(`SELECT * FROM hero_equipment WHERE equipment_id = :itemId AND player_id = :player_id`, {
-      player_id: player_id,
+    const payQuery = `UPDATE hero_equipment SET quantity = quantity -:productPrice WHERE equipment_id = :gold AND player_id = :buyerId`
+    const earnQuery = `UPDATE hero_equipment SET quantity = quantity +:productPrice WHERE equipment_id = :gold AND player_id = :sellerId`
+    const createProductQuery = `INSERT INTO hero_equipment (id, equipment_id, player_id, quantity) VALUES (:id, :itemId, :player_id, :quantity)`
+    const addProductQuery = `UPDATE hero_equipment SET quantity = quantity +1 WHERE equipment_id = :itemId AND player_id = :player_id`
+   const removeProductQuery = `DELETE FROM hero_equipment WHERE equipment_id = :itemId AND player_id = :player_id`
+   const subtractProductQuery = `UPDATE hero_equipment SET quantity = quantity -1 WHERE equipment_id = :itemId AND player_id = :player_id`
+    const pay = {
+      
+        productPrice: productPrice,
+        gold :'d6d6d0db-2724-11ee-9b0b-581122ba8110',
+        buyerId: buyerId
+      
+    };
+    const earn = {
+      
+        productPrice: productPrice,
+        gold :'d6d6d0db-2724-11ee-9b0b-581122ba8110',
+        sellerId: sellerId
+      
+    }
+    const createProduct = {
+      
+        id: id,
+      itemId: itemId,
+      player_id: buyerId,
+      quantity: 1
+      
+    };
+
+    const addProduct = {
+      
+        itemId: itemId,
+        player_id: buyerId
+      
+    };
+
+    const removeProduct = {
+      
+        itemId: itemId,
+      player_id: sellerId,
+      
+    };
+
+    const subtractProduct = {
+      
+        itemId: itemId,
+      player_id: sellerId
+      
+    };
+
+
+
+     
+
+    
+
+    
+
+    const [SellerResult] = await pool.execute(`SELECT * FROM hero_equipment WHERE equipment_id = :itemId AND player_id = :player_id`, {
+      player_id: sellerId,
       itemId: itemId,
     }) as RowDataPacket[]
 
-    if (result.length === 0) {
-      pay
-      await pool.execute(`INSERT INTO hero_equipment (id, equipment_id, player_id, quantity) VALUES (:id, :itemId, :player_id, :quantity)`, {
-        id: id,
-        itemId: itemId,
-        player_id: player_id,
-        quantity: 1
-      });
+    const [BuyerResult] = await pool.execute(`SELECT * FROM hero_equipment WHERE equipment_id = :itemId AND player_id = :player_id`, {
+      player_id: buyerId,
+      itemId: itemId,
+    }) as RowDataPacket[]
+
+    if (BuyerResult.length === 0) {
+     console.log(BuyerResult.length + ' buyer')
+     await pool.execute(payQuery, pay)
+      console.log('pay1')
+
+      await pool.execute(earnQuery, earn)
+
+      console.log('earn1')
+
+      await pool.execute(createProductQuery, createProduct)
+
+      console.log('utworzono miecz do ' + buyerId);
+
+      if (SellerResult[0].quantity <= 1) {
+        console.log('SellerResult[0].quantity1 ' + SellerResult[0].quantity)
+
+        await pool.execute(removeProductQuery, removeProduct)
+
+        console.log('remove1')
+
+      } else {
+        await pool.execute(subtractProductQuery, subtractProduct)
+
+        console.log('subtractProduct1')
+
+      }
     } else {
-      pay
-      await pool.execute(`UPDATE hero_equipment SET quantity = quantity +1 WHERE equipment_id = :itemId AND player_id = :player_id`, {
-        itemId: itemId,
-        player_id: player_id
-      });
+      await pool.execute(payQuery, pay)
+
+      console.log('pay2')
+
+      await pool.execute(earnQuery, earn)
+
+      console.log('earn2')
+
+      await pool.execute(addProductQuery, addProduct)
+
+      console.log('dodano miecz do' + buyerId);
+
+      if (SellerResult[0].quantity <= 1) {
+        console.log('SellerResult[0].quantity2 ' + SellerResult[0].quantity)
+
+        await pool.execute(removeProductQuery, removeProduct)
+
+        console.log('remove2' )
+
+      } else {
+        await pool.execute(subtractProductQuery, subtractProduct)
+
+        console.log('subtractProduct2')
+
+      }
     }
 
-
-    
+return SellerResult[0].quantity
+    // przenieść zapytania do zmiennych i robić tylko pool execute @@@
 
   }
 }
