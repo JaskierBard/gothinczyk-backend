@@ -10,7 +10,9 @@ export interface PlayerEntity {
     strength: string;
     dexterity: string;
     mana : number;
-    hitpoints: string;
+    max_mana : number;
+    max_hitpoints: number;
+    hitpoints: number;
     one_handed: string;
     two_handed: string;
     bow : number;

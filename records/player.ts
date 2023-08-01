@@ -18,7 +18,9 @@ export class PlayerRecords implements PlayerEntity {
   strength: string;
   dexterity: string;
   mana: number;
-  hitpoints: string;
+  max_mana: number;
+  hitpoints: number;
+  max_hitpoints: number;
   one_handed: string;
   two_handed: string;
   bow: number;
@@ -43,7 +45,9 @@ export class PlayerRecords implements PlayerEntity {
     this.strength = obj.strength;
     this.dexterity = obj.dexterity;
     this.mana = obj.mana;
+    this.max_mana = obj.max_mana;
     this.hitpoints = obj.hitpoints;
+    this.max_hitpoints = obj.max_hitpoints;
     this.alchemy = obj.alchemy;
     this.one_handed = obj.one_handed;
     this.two_handed = obj.two_handed;
