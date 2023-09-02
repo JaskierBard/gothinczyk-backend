@@ -4,3 +4,4 @@ export * from './alchemy';
 export * from './magic';
 export * from './other';
 export * from './player';
+export * from './bars';
