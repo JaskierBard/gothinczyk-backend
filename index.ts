@@ -3,7 +3,7 @@ import cors from 'cors';
 import 'express-async-errors';
 import'./utils/db';
 import {playerRouter} from "./routers/player";
-import { barsStats } from './routers/barsStats';
+import { board } from './routers/board';
 
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(cors({
 
 
 app.use('/player', playerRouter);
-app.use('/bars', barsStats);
+app.use('/board', board);
 
 
 
