@@ -9,6 +9,7 @@ export class SqueresRecords implements SqueresEntity {
   base:string;
   type:string;
   enemyId:string;
+  enemyImg:string;
   enemyHp:string;
   chest:boolean;
   lootId:string;
@@ -18,6 +19,7 @@ export class SqueresRecords implements SqueresEntity {
     this.base = obj.base;
     this.type = obj.type;
     this.enemyId = obj.enemyId;
+    this.enemyImg = obj.enemyImg;
     this.enemyHp = obj.enemyHp;
     this.chest = obj.chest;
     this.lootId = obj.lootId;

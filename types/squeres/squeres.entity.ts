@@ -3,6 +3,7 @@ export interface SqueresEntity {
     base:string;
     type:string;
     enemyId:string;
+    enemyImg:string;
     enemyHp:string;
     chest:boolean;
     lootId:string;
