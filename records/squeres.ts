@@ -6,6 +6,7 @@ type SqueresResults = [SqueresRecords[], FieldPacket[]];
 
 export class SqueresRecords implements SqueresEntity {
   lp:string;
+  base:string;
   type:string;
   enemyId:string;
   enemyHp:string;
@@ -14,6 +15,7 @@ export class SqueresRecords implements SqueresEntity {
 
   constructor(obj: SqueresEntity) {
     this.lp = obj.lp;
+    this.base = obj.base;
     this.type = obj.type;
     this.enemyId = obj.enemyId;
     this.enemyHp = obj.enemyHp;

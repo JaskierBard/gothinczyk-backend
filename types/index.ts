@@ -7,3 +7,4 @@ export * from './player';
 export * from './bars';
 export * from './board';
 export * from './squeres';
+export * from './enemy';

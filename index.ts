@@ -4,6 +4,7 @@ import 'express-async-errors';
 import'./utils/db';
 import {playerRouter} from "./routers/player";
 import { board } from './routers/board';
+import { enemyRouter } from './routers/enemy';
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(cors({
 
 
 app.use('/player', playerRouter);
+app.use('/enemy', enemyRouter);
+
 app.use('/board', board);
 
 
