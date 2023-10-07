@@ -50,5 +50,12 @@ export class EnemyRecords implements EnemyRecords {
         console.log(result)
     return result;
     }
+
+    static async getRandomEnemy() {
+        const [result] = await pool.execute(`
+        SELECT * FROM enemy ORDER BY RAND() LIMIT 1`
+        ) as EnemyRecordResults;
+    return result;
+    }
     
 }
