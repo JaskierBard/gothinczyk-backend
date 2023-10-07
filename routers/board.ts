@@ -13,3 +13,19 @@ board
     events,
   });
 })
+
+.post("/remove_all", async (req, res) => {
+  const results = await SqueresRecords.removeAll();
+  console.log(results + ' udało się')
+  res.json({
+    results,
+  });
+})
+
+.post("/add_many", async (req, res) => {
+
+  const events = await SqueresRecords.addMany();
+  res.json({
+    events,
+  });
+})
