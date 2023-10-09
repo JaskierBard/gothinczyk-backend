@@ -16,7 +16,6 @@ board
 
 .post("/remove_all", async (req, res) => {
   const results = await SqueresRecords.removeAll();
-  console.log(results + ' udało się')
   res.json({
     results,
   });
@@ -24,7 +23,7 @@ board
 
 .post("/add_many", async (req, res) => {
 
-  const events = await SqueresRecords.addMany();
+  const events = await SqueresRecords.addMany(7);
   res.json({
     events,
   });

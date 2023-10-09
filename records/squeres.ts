@@ -38,31 +38,45 @@ export class SqueresRecords implements SqueresEntity {
     const [results] = (await pool.execute(
       "UPDATE `squeres` SET enemyId = NULL, enemyImg ='', enemyHp = NULL, chest = NULL, lootId = NULL WHERE `enemyId` IS NOT NULL;"
     )) as SqueresResults;
-      if (results == undefined) {
-        console.log('empty')
-        return 'empty';
-      }
+    if (results == undefined) {
+      console.log("empty");
+      return "empty";
+    }
   }
 
-  static async addMany() {
+  static async addMany(number: number) {
+    let arr: number[] = [];
+    let disabledAreas: number[] = [1, 11, 75, 85, 86, 87, 88, 89, 14, 19, 24, 32, 39, 40, 41, 42, 43, 44 , 45 ,46, 47, 54, 62, 67, 72];
 
-    const enemy = await EnemyRecords.getRandomEnemy();
-    const randomNumber = Math.floor(Math.random() * (89 - 1 + 1)) + 1;
+    while (arr.length < number) {
+      const randomNumber: number = Math.floor(Math.random() * (89 - 1 + 1)) + 1;
 
-    await pool.execute(
-      "UPDATE `squeres` SET enemyId = :enemyId, enemyImg = :enemyImg, enemyHp = :enemyHp WHERE `lp` = :lp;",
-      {
-        lp: randomNumber,
-        enemyId: enemy[0].enemy_id,
-        enemyImg: enemy[0].img,
-        enemyHp: enemy[0].health_points,
+      if (
+        !disabledAreas.includes(randomNumber) &&
+        !arr.includes(randomNumber)
+      ) {
+        arr.push(randomNumber);
       }
-    ) as SqueresResults;
+    }
+
+    arr.forEach(async (element) => {
+      const enemy = await EnemyRecords.getRandomEnemy();
+
+      (await pool.execute(
+        "UPDATE `squeres` SET enemyId = :enemyId, enemyImg = :enemyImg, enemyHp = :enemyHp WHERE `lp` = :lp;",
+        {
+          lp: element,
+          enemyId: enemy[0].enemy_id,
+          enemyImg: enemy[0].img,
+          enemyHp: enemy[0].health_points,
+        }
+      )) as SqueresResults;
+    });
 
     return 200;
   }
 
-  static async addOne(lp: number,  enemy_id: string) {
+  static async addOne(lp: number, enemy_id: string) {
     const [results] = (await pool.execute(
       "UPDATE `squares` SET enemyId = NULL, enemyImg = NULL, enemyHp = NULL, chest = NULL, lootId = NULL WHERE `lp` = :lp;",
       {
